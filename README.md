@@ -14,7 +14,7 @@ The package can be installed by adding `caldav_client` to your list of dependenc
 ```elixir
 def deps do
   [
-    {:caldav_client, "~> 1.0.0"}
+    {:caldav_client, "~> 1.0"}
   ]
 end
 ```
@@ -151,7 +151,7 @@ It is also possible to retrieve only the events with an alarm (`VALARM`) within 
 
 For custom event reports, pass the XML request body to `CalDAVClient.Event.get_events_by_xml/3` function:
 ```elixir
-{:ok, events} = client |> get_events_by_xml(calendar_url, request_xml)
+{:ok, events} = client |> CalDAVClient.Event.get_events_by_xml(calendar_url, request_xml)
 ```
 
 In all cases above, `events` is a list of `%CalDAVClient.Event{}` structs with `url`, `icalendar` and `etag` fields.
