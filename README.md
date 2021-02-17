@@ -1,6 +1,10 @@
 # CalDAV Client
 
-This library allows for managing calendars and events on a remote calendar server according to CalDAV specification ([RFC 4791](https://tools.ietf.org/html/rfc4791)). Supports time zones, recurrence expansion and ETags. Internally uses [Tesla](https://github.com/teamon/tesla) HTTP client along with [Hackney](https://github.com/benoitc/hackney) adapter.
+[![Hex.pm](https://img.shields.io/hexpm/v/caldav_client.svg)](https://hex.pm/packages/caldav_client)
+[![API Docs](https://img.shields.io/badge/api-docs-brightgreen.svg)](https://hexdocs.pm/caldav_client/readme.html)
+
+
+This library allows for managing calendars and events on a remote calendar server according to CalDAV specification ([RFC 4791](https://tools.ietf.org/html/rfc4791)). Supports time zones, recurrence expansion and ETags. Internally uses [Tesla](https://github.com/teamon/tesla) HTTP client.
 
 Please note that conversion between native Elixir structures and iCalendar format ([RFC 5545](https://tools.ietf.org/html/rfc5545)) is beyond the scope of this library. The following packages are recommended:
 
@@ -9,20 +13,30 @@ Please note that conversion between native Elixir structures and iCalendar forma
 
 ## Installation
 
-The package can be installed by adding `caldav_client` to your list of dependencies in `mix.exs`:
+CalDAV Client is published on [Hex](https://hex.pm/packages/caldav_client). Add it to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:caldav_client, "~> 1.0"}
+    {:caldav_client, "~> 1.0"},
+
+    # recommended time zone database
+    {:tzdata, "~> 1.1"},
+
+    # recommended Tesla adapter
+    {:hackney, "~> 1.17"},
   ]
 end
 ```
+
+Then run `mix deps.get` to install the package and its dependencies.
 
 It is also required to configure the time zone database and the default Tesla adapter in the `config/config.exs` of your project:
 
 ```elixir
 # config/config.exs
+
+import Config
 
 config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
 
@@ -54,7 +68,7 @@ Both HTTP Basic (`:basic`) and Digest (`:digest`) authentication methods are sup
 
 ### Calendar
 
-Each calendar user (or principal, according to CalDAV terminology) can have multiple calendars, which are identified with URLs.
+Each calendar user (or principal, according to CalDAV terminology) can have multiple calendars, which are identified by URLs.
 
 ```elixir
 calendar_url = CalDAVClient.URL.Builder.build_calendar_url("username", "example")
