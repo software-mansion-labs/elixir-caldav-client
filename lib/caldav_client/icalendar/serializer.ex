@@ -7,9 +7,8 @@ defmodule CalDAVClient.ICalendar.Serializer do
   @doc false
   @spec serialize_datetime(DateTime.t()) :: {:ok, String.t()} | {:error, any()}
   def serialize_datetime(datetime) do
-    with {:ok, datetime_utc} <- datetime |> DateTime.shift_zone("Etc/UTC"),
-         {:ok, datetime_icalendar} <- datetime_utc |> Timex.format("{0YYYY}{0M}{0D}T{h24}{m}{s}Z") do
-      {:ok, datetime_icalendar}
+    with {:ok, datetime_utc} <- datetime |> DateTime.shift_zone("Etc/UTC") do
+      {:ok, datetime_utc |> DateTime.truncate(:second) |> DateTime.to_iso8601(:basic)}
     end
   end
 

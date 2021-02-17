@@ -4,7 +4,7 @@ defmodule CalDAVClient.MixProject do
   def project do
     [
       app: :caldav_client,
-      version: "1.0.0",
+      version: "1.0.1",
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
       description: description(),
@@ -34,15 +34,13 @@ defmodule CalDAVClient.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:tesla, "~> 1.4.0"},
-      {:hackney, "~> 1.16.0"},
+      {:tesla, "~> 1.4"},
       {:xml_builder, "~> 2.1"},
-      {:sweet_xml, "~> 0.6.5"},
-      {:timex, "~> 3.6"},
-      {:ex_parameterized, "~> 1.3.7", only: :test},
-      {:ex_doc, "~> 0.23", only: :dev, runtime: false}
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
+      {:sweet_xml, "~> 0.6.6"},
+      {:tzdata, "~> 1.1", optional: true},
+      {:hackney, "~> 1.17", optional: true},
+      {:ex_parameterized, "~> 1.3", only: :test},
+      {:ex_doc, "~> 0.23.0", only: :dev, runtime: false}
     ]
   end
 
