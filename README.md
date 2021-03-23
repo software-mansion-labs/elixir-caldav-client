@@ -146,7 +146,7 @@ CalDAV specification defines a way to retrieve all events that meet certain crit
 
 ```elixir
 from = DateTime.from_naive!(~N[2021-01-01 00:00:00], "Europe/Warsaw")
-to = DateTime.from_naive!(~N[2021-01-31 23:59:59], "Europe/Warsaw")
+to = DateTime.from_naive!(~N[2021-02-01 00:00:00], "Europe/Warsaw")
 
 {:ok, events} = client |> CalDAVClient.Event.get_events(calendar_url, from, to)
 ```
