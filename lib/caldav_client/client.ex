@@ -4,18 +4,18 @@ defmodule CalDAVClient.Client do
 
   ## Fields
   * `server_url` - address of the calendar server, e.g. `"http://example.com/calendar"`
-  * `auth` - HTTP authentication method, either `:basic` or `:digest`
+  * `auth` - HTTP authentication method, supports: `:basic`, `:digest` or `:bearer`
   * `username` - username
   * `password` - password
   """
 
   @type t :: %__MODULE__{
           server_url: String.t(),
-          auth: :basic | :digest,
+          auth: :basic | :digest | :bearer,
           username: String.t(),
           password: String.t()
         }
 
   @enforce_keys [:server_url, :auth, :username, :password]
-  defstruct @enforce_keys
+  defstruct [:token | @enforce_keys]
 end
