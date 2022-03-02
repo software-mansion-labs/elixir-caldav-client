@@ -1,8 +1,9 @@
 client = %CalDAVClient.Client{
   server_url: "http://127.0.0.1:8800/cal.php",
-  auth: :basic,
-  username: "username",
-  password: "password"
+  auth: %CalDAVClient.Auth.Basic{
+    username: "username",
+    password: "password"
+  }
 }
 
 calendar_url = CalDAVClient.URL.Builder.build_calendar_url("username", "etag_demo")

@@ -3,9 +3,11 @@ defmodule CalDAVClient.TeslaTest do
 
   describe "make_tesla_client/2" do
     test "supports bearer client" do
-      client = %CalDAVClient.BearerClient{
+      client = %CalDAVClient.Client{
         server_url: "https://example.com",
-        token: "token"
+        auth: %CalDAVClient.Auth.Bearer{
+          token: "token"
+        }
       }
 
       tesla = CalDAVClient.Tesla.make_tesla_client(client, [])
