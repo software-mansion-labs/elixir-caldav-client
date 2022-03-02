@@ -1,6 +1,6 @@
 defmodule CalDAVClient.BearerClient do
   @moduledoc """
-  Stores the server addressand token for CalDav servers with Bearer authorization.
+  Stores the server address and token for CalDAV servers with Bearer authorization.
 
   ## Fields
   * `server_url` - address of the calendar server, e.g. `"http://example.com/calendar"`
