@@ -36,7 +36,7 @@ end
 
 defmodule CalDAVClient.Auth.Bearer do
   @moduledoc """
-  Stores user credentials for Basic authorization.
+  Stores user credentials for Bearer authorization.
 
   ## Fields
   * `token` - Bearer authentication token

@@ -58,19 +58,27 @@ The `%CalDAVClient.Client{}` struct aggregates the connection details such as th
 ```elixir
 client = %CalDAVClient.Client{
   server_url: "http://127.0.0.1:8800/cal.php",
-  auth: :basic,
-  username: "username",
-  password: "password"
+  auth: %CalDAVClient.Auth.Basic{
+    username: "username",
+    password: "password"
+  }
 }
 ```
 
-Both HTTP Basic (`:basic`) and Digest (`:digest`) authentication methods are supported.
-
-If your server needs Bearer authorization you can use `%CalDAVClient.BearerClient{}`:
+Library supports Basic, Digest and Bearer authorizations:
 
 ```elixir
-client = %CalDAVClient.BearerClient{
-  server_url: "http://127.0.0.1:8800/cal.php",
+%CalDAVClient.Auth.Basic{
+  username: "username",
+  password: "password"
+}
+
+%CalDAVClient.Auth.Digest{
+  username: "username",
+  password: "password"
+}
+
+%CalDAVClient.Auth.Bearer{
   token: "token"
 }
 ```
