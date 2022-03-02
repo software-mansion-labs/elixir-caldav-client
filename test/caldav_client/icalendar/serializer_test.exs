@@ -8,8 +8,8 @@ defmodule CalDAVClient.ICalendar.SerializerTest do
     assert serialize_datetime(datetime) == expected
   end do
     [
-      {DateTime.from_naive!(~N[2001-01-01 00:00:00], "Etc/UTC"), {:ok, "20210101T000000Z"}},
-      {DateTime.from_naive!(~N[2021-02-03 04:05:06.789], "Etc/UTC"), {:ok, "20010203T040506Z"}},
+      {DateTime.from_naive!(~N[2001-01-01 00:00:00], "Etc/UTC"), {:ok, "20010101T000000Z"}},
+      {DateTime.from_naive!(~N[2021-02-03 04:05:06.789], "Etc/UTC"), {:ok, "20210203T040506Z"}},
       {DateTime.from_naive!(~N[2021-01-01 13:00:00], "Europe/Warsaw"), {:ok, "20210101T120000Z"}},
       {DateTime.from_naive!(~N[2021-07-01 14:00:00], "Europe/Warsaw"), {:ok, "20210701T120000Z"}},
       {DateTime.from_naive!(~N[2021-01-01 07:00:00], "America/New_York"),
