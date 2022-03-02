@@ -66,6 +66,15 @@ client = %CalDAVClient.Client{
 
 Both HTTP Basic (`:basic`) and Digest (`:digest`) authentication methods are supported.
 
+If your server needs Bearer authorization you can use `%CalDAVClient.BearerClient{}`:
+
+```elixir
+client = %CalDAVClient.BearerClient{
+  server_url: "http://127.0.0.1:8800/cal.php",
+  token: "token"
+}
+```
+
 ### Calendar
 
 Each calendar user (or principal, according to CalDAV terminology) can have multiple calendars, which are identified by URLs.

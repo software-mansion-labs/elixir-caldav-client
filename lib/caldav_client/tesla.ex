@@ -7,9 +7,21 @@ defmodule CalDAVClient.Tesla do
   Converts a `t:CalDAVClient.Client.t/0` into a Tesla client which enables communication
   with an external calendar server via HTTP protocol.
   """
-  @spec make_tesla_client(CalDAVClient.Client.t(), [Tesla.Client.middleware()]) ::
+  @spec make_tesla_client(CalDAVClient.Client.t() | CalDAVClient.BearerClient.t(), [
+          Tesla.Client.middleware()
+        ]) ::
           Tesla.Client.t()
   def make_tesla_client(caldav_client, middleware \\ []) do
+    auth_middleware = build_auth_middleware(caldav_client)
+
+    Tesla.client([
+      {Tesla.Middleware.BaseUrl, caldav_client.server_url},
+      auth_middleware
+      | middleware
+    ])
+  end
+
+  def build_auth_middleware(caldav_client = %CalDAVClient.Client{}) do
     credentials = caldav_client |> Map.take([:username, :password])
 
     auth_middleware =
@@ -18,11 +30,11 @@ defmodule CalDAVClient.Tesla do
         :digest -> Tesla.Middleware.DigestAuth
       end
 
-    Tesla.client([
-      {Tesla.Middleware.BaseUrl, caldav_client.server_url},
-      {auth_middleware, credentials}
-      | middleware
-    ])
+    {auth_middleware, credentials}
+  end
+
+  def build_auth_middleware(%CalDAVClient.BearerClient{token: token}) do
+    {Tesla.Middleware.BearerAuth, token: token}
   end
 end
 
