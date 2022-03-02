@@ -64,17 +64,7 @@ client = %CalDAVClient.Client{
 }
 ```
 
-```elixir
-client = %CalDAVClient.Client{
-  server_url: "http://127.0.0.1:8800/cal.php",
-  auth: :bearer,
-  username: "",
-  password: "",
-  token: "token"
-}
-```
-
-HTTP Basic (`:basic`), Digest (`:digest`) and Bearer (`:bearer`) authentication methods are supported.
+Both HTTP Basic (`:basic`) and Digest (`:digest`) authentication methods are supported.
 
 ### Calendar
 

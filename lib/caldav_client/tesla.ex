@@ -14,20 +14,13 @@ defmodule CalDAVClient.Tesla do
 
     auth_middleware =
       case caldav_client.auth do
-        :basic ->
-          {Tesla.Middleware.BasicAuth, credentials}
-
-        :digest ->
-          {Tesla.Middleware.DigestAuth, credentials}
-
-        :bearer ->
-          token = caldav_client.token || raise("Bearer token is missing")
-          {Tesla.Middleware.BearerAuth, token: token}
+        :basic -> Tesla.Middleware.BasicAuth
+        :digest -> Tesla.Middleware.DigestAuth
       end
 
     Tesla.client([
       {Tesla.Middleware.BaseUrl, caldav_client.server_url},
-      auth_middleware
+      {auth_middleware, credentials}
       | middleware
     ])
   end
