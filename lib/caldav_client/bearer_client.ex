@@ -4,7 +4,7 @@ defmodule CalDAVClient.BearerClient do
 
   ## Fields
   * `server_url` - address of the calendar server, e.g. `"http://example.com/calendar"`
-  * `token` - username
+  * `token` - Bearer authentication token
   """
 
   @type t :: %__MODULE__{
