@@ -1,6 +1,6 @@
 defmodule CalDAVClient.Auth.Digest do
   @moduledoc """
-  Stores user credentials for Digest authorization.
+  Stores user credentials for Digest authentication.
 
   ## Fields
   * `username` - username
