@@ -65,7 +65,7 @@ client = %CalDAVClient.Client{
 }
 ```
 
-Library supports Basic, Digest and Bearer authorizations:
+The library supports Basic, Digest and Bearer authentication:
 
 ```elixir
 %CalDAVClient.Auth.Basic{
