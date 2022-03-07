@@ -1,4 +1,4 @@
-# CalDAV Client
+# Elixir CalDAV Client
 
 [![Hex.pm](https://img.shields.io/hexpm/v/caldav_client.svg)](https://hex.pm/packages/caldav_client)
 [![API Docs](https://img.shields.io/badge/api-docs-brightgreen.svg)](https://hexdocs.pm/caldav_client/readme.html)
@@ -18,13 +18,13 @@ CalDAV Client is published on [Hex](https://hex.pm/packages/caldav_client). Add 
 ```elixir
 def deps do
   [
-    {:caldav_client, "~> 1.0"},
+    {:caldav_client, "~> 2.0"},
 
-    # recommended time zone database
+    # time zone database
     {:tzdata, "~> 1.1"},
 
     # recommended Tesla adapter
-    {:hackney, "~> 1.17"},
+    {:hackney, "~> 1.18"},
   ]
 end
 ```
@@ -201,7 +201,6 @@ When installed and configured, create a test user account and provide credential
 
 config :caldav_client, :test_server,
   server_url: "http://127.0.0.1:8800/cal.php",
-  auth: :basic,
   username: "username",
   password: "password"
 ```
@@ -214,7 +213,7 @@ mix test --include integration
 
 ## Copyright and License
 
-Copyright 2021, [Software Mansion](https://swmansion.com/?utm_source=git&utm_medium=readme&utm_campaign=elixir-caldav-client)
+Copyright 2022, [Software Mansion](https://swmansion.com/?utm_source=git&utm_medium=readme&utm_campaign=elixir-caldav-client)
 
 [![Software Mansion](https://logo.swmansion.com/logo?color=white&variant=desktop&width=200&tag=elixir-caldav-client-github)](https://swmansion.com/?utm_source=git&utm_medium=readme&utm_campaign=elixir-caldav-client)
 
