@@ -1,6 +1,6 @@
 defmodule CalDAVClient.Auth.Basic do
   @moduledoc """
-  Stores user credentials for Basic authorization.
+  Stores user credentials for Basic authentication.
 
   ## Fields
   * `username` - username

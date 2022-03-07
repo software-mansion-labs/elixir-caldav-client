@@ -4,9 +4,10 @@ defmodule CalDAVClient.Client do
 
   ## Fields
   * `server_url` - address of the calendar server, e.g. `"http://example.com/calendar"`
-  * `auth` - HTTP authentication method, either `:basic` or `:digest`
-  * `username` - username
-  * `password` - password
+  * `auth` - authentication type and credentials:
+    * `t:CalDAVClient.Auth.Basic.t/0` - Basic authentication
+    * `t:CalDAVClient.Auth.Digest.t/0` - Digest authentication
+    * `t:CalDAVClient.Auth.Bearer.t/0` - Bearer (token) authentication
   """
 
   alias CalDAVClient.Auth.Basic
