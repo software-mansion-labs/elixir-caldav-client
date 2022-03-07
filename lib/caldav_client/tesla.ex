@@ -7,9 +7,7 @@ defmodule CalDAVClient.Tesla do
   Converts a `t:CalDAVClient.Client.t/0` into a Tesla client which enables communication
   with an external calendar server via HTTP protocol.
   """
-  @spec make_tesla_client(CalDAVClient.Client.t(), [
-          Tesla.Client.middleware()
-        ]) ::
+  @spec make_tesla_client(CalDAVClient.Client.t(), [Tesla.Client.middleware()]) ::
           Tesla.Client.t()
   def make_tesla_client(%{server_url: server_url, auth: auth}, middleware \\ []) do
     Tesla.client([
