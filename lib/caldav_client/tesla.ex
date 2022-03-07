@@ -9,21 +9,20 @@ defmodule CalDAVClient.Tesla do
   """
   @spec make_tesla_client(CalDAVClient.Client.t(), [Tesla.Client.middleware()]) ::
           Tesla.Client.t()
-  def make_tesla_client(caldav_client, middleware \\ []) do
-    credentials = caldav_client |> Map.take([:username, :password])
-
-    auth_middleware =
-      case caldav_client.auth do
-        :basic -> Tesla.Middleware.BasicAuth
-        :digest -> Tesla.Middleware.DigestAuth
-      end
-
+  def make_tesla_client(%{server_url: server_url, auth: auth}, middleware \\ []) do
     Tesla.client([
-      {Tesla.Middleware.BaseUrl, caldav_client.server_url},
-      {auth_middleware, credentials}
+      {Tesla.Middleware.BaseUrl, server_url},
+      {auth_middleware(auth), credentials(auth)}
       | middleware
     ])
   end
+
+  defp auth_middleware(%CalDAVClient.Auth.Basic{}), do: Tesla.Middleware.BasicAuth
+  defp auth_middleware(%CalDAVClient.Auth.Digest{}), do: Tesla.Middleware.DigestAuth
+  defp auth_middleware(%CalDAVClient.Auth.Bearer{}), do: Tesla.Middleware.BearerAuth
+
+  defp credentials(auth = %{username: _, password: _}), do: Map.from_struct(auth)
+  defp credentials(%{token: token}), do: [token: token]
 end
 
 defmodule CalDAVClient.Tesla.ContentTypeXMLMiddleware do

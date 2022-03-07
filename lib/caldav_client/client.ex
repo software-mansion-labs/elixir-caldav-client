@@ -9,13 +9,15 @@ defmodule CalDAVClient.Client do
   * `password` - password
   """
 
+  alias CalDAVClient.Auth.Basic
+  alias CalDAVClient.Auth.Digest
+  alias CalDAVClient.Auth.Bearer
+
   @type t :: %__MODULE__{
           server_url: String.t(),
-          auth: :basic | :digest,
-          username: String.t(),
-          password: String.t()
+          auth: Basic.t() | Digest.t() | Bearer.t()
         }
 
-  @enforce_keys [:server_url, :auth, :username, :password]
+  @enforce_keys [:server_url, :auth]
   defstruct @enforce_keys
 end
