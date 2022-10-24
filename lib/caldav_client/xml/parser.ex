@@ -10,6 +10,7 @@ defmodule CalDAVClient.XML.Parser do
   @icalendar_xpath ~x"./*[local-name()='propstat']/*[local-name()='prop']/*[local-name()='calendar-data']/text()"s
   @etag_xpath ~x"./*[local-name()='propstat']/*[local-name()='prop']/*[local-name()='getetag']/text()"s
 
+  @cal_name_xpath ~x"./*[local-name()='propstat']/*[local-name()='prop']/*[local-name()='displayname']/text()"s
   @doc """
   Parses XML response body into a list of events.
   """
@@ -22,5 +23,18 @@ defmodule CalDAVClient.XML.Parser do
       etag: @etag_xpath
     )
     |> Enum.map(&struct(CalDAVClient.Event, &1))
+  end
+
+  @doc """
+  Parses XML response body into a list of calendars.
+  """
+  @spec parse_calendars(response_xml :: String.t()) :: [CalDAVClient.Calendar.t()]
+  def parse_calendars(response_xml) do
+    response_xml
+    |> xpath(@event_xpath,
+      url: @url_xpath,
+      name: @cal_name_xpath
+    )
+    |> Enum.map(&struct(CalDAVClient.Calendar, &1))
   end
 end

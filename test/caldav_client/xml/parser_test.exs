@@ -191,4 +191,98 @@ defmodule CalDAVClient.XML.ParserTest do
 
     assert actual == expected
   end
+
+  test "parses calendars from XML response" do
+    xml = """
+    <?xml version="1.0"?>
+    <d:multistatus xmlns:d="DAV:"
+                 xmlns:c="urn:ietf:params:xml:ns:caldav">
+    <d:response>
+       <d:href>/calendars/blubbi/</d:href>
+      <d:propstat>
+        <d:prop>
+          <d:resourcetype>
+            <d:collection/>
+          </d:resourcetype>
+        </d:prop>
+        <d:status>HTTP/1.1 200 OK</d:status>
+      </d:propstat>
+      <d:propstat>
+        <d:prop>
+          <d:displayname/>
+        </d:prop>
+        <d:status>HTTP/1.1 404 Not Found</d:status>
+      </d:propstat>
+    </d:response>
+    <d:response>
+      <d:href>/calendars/blubbi/journals/</d:href>
+      <d:propstat>
+        <d:prop>
+          <d:resourcetype>
+            <d:collection/>
+            <cal:calendar/>
+            <cs:shared-owner/>
+          </d:resourcetype>
+          <d:displayname>Journals</d:displayname>
+        </d:prop>
+        <d:status>HTTP/1.1 200 OK</d:status>
+      </d:propstat>
+    </d:response>
+    <d:response>
+      <d:href>/calendars/blubbi/home/</d:href>
+      <d:propstat>
+        <d:prop>
+          <d:resourcetype>
+            <d:collection/>
+            <cal:calendar/>
+            <cs:shared-owner/>
+          </d:resourcetype>
+          <d:displayname>Home</d:displayname>
+        </d:prop>
+        <d:status>HTTP/1.1 200 OK</d:status>
+      </d:propstat>
+    </d:response>
+    <d:response>
+      <d:href>/calendars/blubbi/tasks/</d:href>
+      <d:propstat>
+        <d:prop>
+          <d:resourcetype>
+            <d:collection/>
+            <cal:calendar/>
+            <cs:shared-owner/>
+          </d:resourcetype>
+          <d:displayname>Tasks</d:displayname>
+        </d:prop>
+        <d:status>HTTP/1.1 200 OK</d:status>
+      </d:propstat>
+    </d:response>
+    <d:response>
+      <d:href>/calendars/blubbi/work/</d:href>
+      <d:propstat>
+        <d:prop>
+         <d:resourcetype>
+            <d:collection/>
+           <cal:calendar/>
+            <cs:shared-owner/>
+         </d:resourcetype>
+          <d:displayname>Work</d:displayname>
+       </d:prop>
+        <d:status>HTTP/1.1 200 OK</d:status>
+     </d:propstat>
+    </d:response>
+    </d:multistatus>
+    """
+
+    actual = xml |> CalDAVClient.XML.Parser.parse_calendars()
+
+    expected = [
+      %CalDAVClient.Calendar{name: "", url: "/calendars/blubbi/"},
+      %CalDAVClient.Calendar{name: "Journals", url: "/calendars/blubbi/journals/"},
+      %CalDAVClient.Calendar{name: "Home", url: "/calendars/blubbi/home/"},
+      %CalDAVClient.Calendar{name: "Tasks", url: "/calendars/blubbi/tasks/"},
+      %CalDAVClient.Calendar{name: "Work", url: "/calendars/blubbi/work/"}
+    ]
+
+    assert actual == expected
+  end
 end

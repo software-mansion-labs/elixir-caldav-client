@@ -6,6 +6,13 @@ defmodule CalDAVClient.Calendar do
   import CalDAVClient.HTTP.Error
   import CalDAVClient.Tesla
 
+  @type t :: %__MODULE__{
+          url: String.t(),
+          name: String.t()
+        }
+  @enforce_keys [:url, :name]
+  defstruct @enforce_keys
+
   @xml_middlewares [
     CalDAVClient.Tesla.ContentTypeXMLMiddleware,
     CalDAVClient.Tesla.ContentLengthMiddleware
@@ -24,13 +31,12 @@ defmodule CalDAVClient.Calendar do
            url: "",
            body: CalDAVClient.XML.Builder.build_list_calendar_xml()
          ) do
+      {:ok, %Tesla.Env{status: 207, body: response_xml}} ->
+        calendars = response_xml |> CalDAVClient.XML.Parser.parse_calendars()
+        {:ok, calendars}
+
       {:ok, %Tesla.Env{status: code}} ->
-        case code do
-          201 -> :ok
-          207 -> :ok
-          405 -> {:error, :already_exists}
-          _ -> {:error, reason_atom(code)}
-        end
+        {:error, reason_atom(code)}
 
       {:error, _reason} = error ->
         error
