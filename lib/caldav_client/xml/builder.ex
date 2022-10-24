@@ -9,13 +9,23 @@ defmodule CalDAVClient.XML.Builder do
   @default_event_to DateTime.from_naive!(~N[9999-12-31 23:59:59], "Etc/UTC")
 
   @doc """
-  Generates XML request body to create a calendar
-  (see [RFC 4791, section 5.3.1.2](https://tools.ietf.org/html/rfc4791#section-5.3.1.2)).
+  Generates XML request body to fetcht the list of calendars
+  (see [RFC 4791, section 4.2](https://tools.ietf.org/html/rfc4791#section-4.2)).
 
-  ## Options
-  * `name` - calendar name.
-  * `description` - calendar description.
   """
+  @spec build_list_calendar_xml() :: String.t()
+  def build_list_calendar_xml() do
+    {"D:propfind", ["xmlns:D": "DAV:", "xmlns:CS": "http://calendarserver.org/ns/", "xmlns:C": "urn:ietf:params:xml:ns:caldav"],
+     [
+       {"D:prop", nil,
+        [
+          {"D:resourcetype"},
+          {"D:displayname"},
+        ]}
+     ]}
+    |> serialize()
+  end
+
   @spec build_create_calendar_xml(opts :: keyword()) :: String.t()
   def build_create_calendar_xml(opts \\ []) do
     props =
