@@ -23,8 +23,7 @@ defmodule CalDAVClient.Calendar do
            method: :propfind,
            url: "",
            body: CalDAVClient.XML.Builder.build_list_calendar_xml()
-         )
-           |> IO.inspect do
+         ) do
       {:ok, %Tesla.Env{status: code}} ->
         case code do
           201 -> :ok

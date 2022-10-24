@@ -15,12 +15,17 @@ defmodule CalDAVClient.XML.Builder do
   """
   @spec build_list_calendar_xml() :: String.t()
   def build_list_calendar_xml() do
-    {"D:propfind", ["xmlns:D": "DAV:", "xmlns:CS": "http://calendarserver.org/ns/", "xmlns:C": "urn:ietf:params:xml:ns:caldav"],
+    {"D:propfind",
+     [
+       "xmlns:D": "DAV:",
+       "xmlns:CS": "http://calendarserver.org/ns/",
+       "xmlns:C": "urn:ietf:params:xml:ns:caldav"
+     ],
      [
        {"D:prop", nil,
         [
           {"D:resourcetype"},
-          {"D:displayname"},
+          {"D:displayname"}
         ]}
      ]}
     |> serialize()
