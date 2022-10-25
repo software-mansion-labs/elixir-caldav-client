@@ -8,9 +8,11 @@ defmodule CalDAVClient.Calendar do
 
   @type t :: %__MODULE__{
           url: String.t(),
-          name: String.t()
+          name: String.t(),
+          type: String.t(),
+          timezone: String.t()
         }
-  @enforce_keys [:url, :name]
+  @enforce_keys [:url, :name, :type, :timezone]
   defstruct @enforce_keys
 
   @xml_middlewares [

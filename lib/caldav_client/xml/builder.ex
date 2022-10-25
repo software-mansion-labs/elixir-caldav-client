@@ -24,7 +24,9 @@ defmodule CalDAVClient.XML.Builder do
        {"D:prop", nil,
         [
           {"D:resourcetype"},
-          {"D:displayname"}
+          {"D:displayname"},
+          {"C:calendar-timezone"},
+          {"C:supported-calendar-component-set"}
         ]}
      ]}
     |> serialize()

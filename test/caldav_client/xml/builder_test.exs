@@ -14,6 +14,8 @@ defmodule CalDAVClient.XML.BuilderTest do
       <D:prop>
         <D:resourcetype/>
         <D:displayname/>
+        <C:calendar-timezone/>
+        <C:supported-calendar-component-set/>
       </D:prop>
     </D:propfind>
     """
