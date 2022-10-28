@@ -452,9 +452,9 @@ defmodule CalDAVClient.XML.ParserTest do
     # https://tools.ietf.org/html/rfc4791#section-6.2
 
     xml = """
-<?xml version="1.0"?>
-<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav">
-  <d:response>
+    <?xml version="1.0"?>
+    <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav">
+    <d:response>
     <d:href>/</d:href>
     <d:propstat>
       <d:prop>
@@ -467,8 +467,8 @@ defmodule CalDAVClient.XML.ParserTest do
       </d:prop>
       <d:status>HTTP/1.1 200 OK</d:status>
     </d:propstat>
-  </d:response>
-  <d:response>
+    </d:response>
+    <d:response>
     <d:href>/principals/</d:href>
     <d:propstat>
       <d:prop>
@@ -481,8 +481,8 @@ defmodule CalDAVClient.XML.ParserTest do
       </d:prop>
       <d:status>HTTP/1.1 200 OK</d:status>
     </d:propstat>
-  </d:response>
-  <d:response>
+    </d:response>
+    <d:response>
     <d:href>/calendars/</d:href>
     <d:propstat>
       <d:prop>
@@ -495,8 +495,8 @@ defmodule CalDAVClient.XML.ParserTest do
       </d:prop>
       <d:status>HTTP/1.1 200 OK</d:status>
     </d:propstat>
-  </d:response>
-  <d:response>
+    </d:response>
+    <d:response>
     <d:href>/addressbooks/</d:href>
     <d:propstat>
       <d:prop>
@@ -509,14 +509,13 @@ defmodule CalDAVClient.XML.ParserTest do
       </d:prop>
       <d:status>HTTP/1.1 200 OK</d:status>
     </d:propstat>
-  </d:response>
-</d:multistatus>
+    </d:response>
+    </d:multistatus>
     """
 
     actual = xml |> CalDAVClient.XML.Parser.parse_principal()
-    expected = [
-    ]
+    expected = []
 
     assert actual == expected
-    end
+  end
 end
