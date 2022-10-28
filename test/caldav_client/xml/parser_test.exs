@@ -514,7 +514,22 @@ defmodule CalDAVClient.XML.ParserTest do
     """
 
     actual = xml |> CalDAVClient.XML.Parser.parse_principal()
-    expected = []
+
+    expected = [
+      %CalDAVClient.Principal{current_user_principal: "/", resource_type: "{DAV:}collection"},
+      %CalDAVClient.Principal{
+        current_user_principal: "/principals/",
+        resource_type: "{DAV:}collection"
+      },
+      %CalDAVClient.Principal{
+        current_user_principal: "/calendars/",
+        resource_type: "{DAV:}collection"
+      },
+      %CalDAVClient.Principal{
+        current_user_principal: "/addressbooks/",
+        resource_type: "{DAV:}collection"
+      }
+    ]
 
     assert actual == expected
   end

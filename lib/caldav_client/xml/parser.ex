@@ -9,7 +9,7 @@ defmodule CalDAVClient.XML.Parser do
   @url_xpath ~x"./*[local-name()='href']/text()"s
   @icalendar_xpath ~x"./*[local-name()='propstat']/*[local-name()='prop']/*[local-name()='calendar-data']/text()"s
   @etag_xpath ~x"./*[local-name()='propstat']/*[local-name()='prop']/*[local-name()='getetag']/text()"s
-  @resource_type_xpath ~x"./*[local-name()='propstat']/*[local-name()='prop']/*[local-name()='resourcetype']/"s
+  @resource_type_xpath ~x"name(./*[local-name()='propstat']/*[local-name()='prop']/*[local-name()='resourcetype']/*)"s
 
   @cal_name_xpath ~x"./*[local-name()='propstat']/*[local-name()='prop']/*[local-name()='displayname']/text()"s
   @cal_type_xpath ~x"./*[local-name()='propstat']/*[local-name()='prop']/*[local-name()='supported-calendar-component-set']/*[local-name()='comp']/@name"s
