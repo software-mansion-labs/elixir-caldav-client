@@ -9,6 +9,28 @@ defmodule CalDAVClient.XML.Builder do
   @default_event_to DateTime.from_naive!(~N[9999-12-31 23:59:59], "Etc/UTC")
 
   @doc """
+  Generates XML request body to fetch principals
+  (see [RFC 4791, section 4.2](https://tools.ietf.org/html/rfc4791#section-4.2)).
+  """
+  @spec build_fetch_principal_xml() :: String.t()
+  def build_fetch_principal_xml() do
+    {"D:propfind",
+     [
+       "xmlns:D": "DAV:",
+       "xmlns:CS": "http://calendarserver.org/ns/",
+       "xmlns:C": "urn:ietf:params:xml:ns:caldav"
+     ],
+     [
+       {"D:prop", nil,
+        [
+          {"D:resourcetype"},
+          {"D:current-user-principal"}
+        ]}
+     ]}
+    |> serialize()
+  end
+
+  @doc """
   Generates XML request body to fetch the list of calendars
   (see [RFC 4791, section 4.2](https://tools.ietf.org/html/rfc4791#section-4.2)).
   """
