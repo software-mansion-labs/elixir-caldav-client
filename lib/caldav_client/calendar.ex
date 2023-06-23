@@ -6,10 +6,44 @@ defmodule CalDAVClient.Calendar do
   import CalDAVClient.HTTP.Error
   import CalDAVClient.Tesla
 
+  @type t :: %__MODULE__{
+          url: String.t(),
+          name: String.t(),
+          type: String.t(),
+          timezone: String.t()
+        }
+  @enforce_keys [:url, :name, :type, :timezone]
+  defstruct @enforce_keys
+
   @xml_middlewares [
     CalDAVClient.Tesla.ContentTypeXMLMiddleware,
     CalDAVClient.Tesla.ContentLengthMiddleware
   ]
+
+  @doc """
+  Fetches the list of calendars (see [RFC 4791, section 4.2](https://tools.ietf.org/html/rfc4791#section-4.2)).
+  """
+  @spec list(CalDAVClient.Client.t()) ::
+          {:ok, [t()]} | {:error, any()}
+  def list(caldav_client) do
+    case caldav_client
+         |> make_tesla_client(@xml_middlewares)
+         |> Tesla.request(
+           method: :propfind,
+           url: "",
+           body: CalDAVClient.XML.Builder.build_list_calendar_xml()
+         ) do
+      {:ok, %Tesla.Env{status: 207, body: response_xml}} ->
+        calendars = response_xml |> CalDAVClient.XML.Parser.parse_calendars()
+        {:ok, calendars}
+
+      {:ok, %Tesla.Env{status: code}} ->
+        {:error, reason_atom(code)}
+
+      {:error, _reason} = error ->
+        error
+    end
+  end
 
   @doc """
   Creates a calendar (see [RFC 4791, section 5.3.1.2](https://tools.ietf.org/html/rfc4791#section-5.3.1.2)).

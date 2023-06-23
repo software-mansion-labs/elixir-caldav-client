@@ -191,4 +191,260 @@ defmodule CalDAVClient.XML.ParserTest do
 
     assert actual == expected
   end
+
+  test "parses calendars from XML response" do
+    xml = """
+    <?xml version="1.0" encoding="utf-8"?>
+        <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:card="urn:ietf:params:xml:ns:carddav">
+      <d:response>
+            <d:href>/calendars/blublub/</d:href>
+        <d:propstat>
+          <d:prop>
+            <d:resourcetype>
+              <d:collection/>
+            </d:resourcetype>
+          </d:prop>
+          <d:status>HTTP/1.1 200 OK</d:status>
+        </d:propstat>
+        <d:propstat>
+          <d:prop>
+            <cal:calendar-description/>
+            <cal:supported-calendar-component-set/>
+            <d:displayname/>
+            <cal:calendar-timezone/>
+          </d:prop>
+          <d:status>HTTP/1.1 404 Not Found</d:status>
+        </d:propstat>
+      </d:response>
+      <d:response>
+        <d:href>/calendars/blublub/journals/</d:href>
+        <d:propstat>
+          <d:prop>
+            <cal:supported-calendar-component-set>
+              <cal:comp name="VJOURNAL"/>
+            </cal:supported-calendar-component-set>
+            <d:resourcetype>
+              <d:collection/>
+              <cal:calendar/>
+              <cs:shared-owner/>
+            </d:resourcetype>
+            <d:displayname>Journals</d:displayname>
+          </d:prop>
+          <d:status>HTTP/1.1 200 OK</d:status>
+        </d:propstat>
+        <d:propstat>
+          <d:prop>
+            <cal:calendar-description/>
+            <cal:calendar-timezone/>
+          </d:prop>
+          <d:status>HTTP/1.1 404 Not Found</d:status>
+        </d:propstat>
+      </d:response>
+      <d:response>
+        <d:href>/calendars/blublub/home/</d:href>
+        <d:propstat>
+          <d:prop>
+            <cal:supported-calendar-component-set>
+              <cal:comp name="VEVENT"/>
+            </cal:supported-calendar-component-set>
+            <d:resourcetype>
+              <d:collection/>
+              <cal:calendar/>
+              <cs:shared-owner/>
+            </d:resourcetype>
+            <d:displayname>Home</d:displayname>
+            <cal:calendar-timezone>BEGIN:VCALENDAR&#xD;
+    VERSION:2.0&#xD;
+    PRODID:-//Apple Inc.//macOS 12.4//EN&#xD;
+    CALSCALE:GREGORIAN&#xD;
+    BEGIN:VTIMEZONE&#xD;
+    TZID:Europe/Zurich&#xD;
+    BEGIN:DAYLIGHT&#xD;
+    TZOFFSETFROM:+0100&#xD;
+    RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU&#xD;
+    DTSTART:19810329T020000&#xD;
+    TZNAME:CEST&#xD;
+    TZOFFSETTO:+0200&#xD;
+    END:DAYLIGHT&#xD;
+    BEGIN:STANDARD&#xD;
+    TZOFFSETFROM:+0200&#xD;
+    RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU&#xD;
+    DTSTART:19961027T030000&#xD;
+    TZNAME:CET&#xD;
+    TZOFFSETTO:+0100&#xD;
+    END:STANDARD&#xD;
+    END:VTIMEZONE&#xD;
+    END:VCALENDAR&#xD;
+    </cal:calendar-timezone>
+          </d:prop>
+          <d:status>HTTP/1.1 200 OK</d:status>
+        </d:propstat>
+        <d:propstat>
+          <d:prop>
+            <cal:calendar-description/>
+          </d:prop>
+          <d:status>HTTP/1.1 404 Not Found</d:status>
+        </d:propstat>
+      </d:response>
+      <d:response>
+        <d:href>/calendars/blublub/tasks/</d:href>
+        <d:propstat>
+          <d:prop>
+            <cal:supported-calendar-component-set>
+              <cal:comp name="VTODO"/>
+            </cal:supported-calendar-component-set>
+            <d:resourcetype>
+              <d:collection/>
+              <cal:calendar/>
+              <cs:shared-owner/>
+            </d:resourcetype>
+            <d:displayname>Tasks</d:displayname>
+          </d:prop>
+          <d:status>HTTP/1.1 200 OK</d:status>
+        </d:propstat>
+        <d:propstat>
+          <d:prop>
+            <cal:calendar-description/>
+            <cal:calendar-timezone/>
+          </d:prop>
+          <d:status>HTTP/1.1 404 Not Found</d:status>
+        </d:propstat>
+      </d:response>
+      <d:response>
+        <d:href>/calendars/blublub/work/</d:href>
+        <d:propstat>
+          <d:prop>
+            <cal:supported-calendar-component-set>
+              <cal:comp name="VEVENT"/>
+            </cal:supported-calendar-component-set>
+            <d:resourcetype>
+              <d:collection/>
+              <cal:calendar/>
+              <cs:shared-owner/>
+            </d:resourcetype>
+            <d:displayname>Work</d:displayname>
+            <cal:calendar-timezone>BEGIN:VCALENDAR&#xD;
+    VERSION:2.0&#xD;
+    PRODID:-//Apple Inc.//macOS 12.4//EN&#xD;
+    CALSCALE:GREGORIAN&#xD;
+    BEGIN:VTIMEZONE&#xD;
+    TZID:Europe/Zurich&#xD;
+    BEGIN:DAYLIGHT&#xD;
+    TZOFFSETFROM:+0100&#xD;
+    RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU&#xD;
+    DTSTART:19810329T020000&#xD;
+    TZNAME:CEST&#xD;
+    TZOFFSETTO:+0200&#xD;
+    END:DAYLIGHT&#xD;
+    BEGIN:STANDARD&#xD;
+    TZOFFSETFROM:+0200&#xD;
+    RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU&#xD;
+    DTSTART:19961027T030000&#xD;
+    TZNAME:CET&#xD;
+    TZOFFSETTO:+0100&#xD;
+    END:STANDARD&#xD;
+    END:VTIMEZONE&#xD;
+    END:VCALENDAR&#xD;
+    </cal:calendar-timezone>
+          </d:prop>
+          <d:status>HTTP/1.1 200 OK</d:status>
+        </d:propstat>
+        <d:propstat>
+          <d:prop>
+            <cal:calendar-description/>
+          </d:prop>
+          <d:status>HTTP/1.1 404 Not Found</d:status>
+        </d:propstat>
+      </d:response>
+      <d:response>
+        <d:href>/calendars/blublub/inbox/</d:href>
+        <d:propstat>
+          <d:prop>
+            <d:resourcetype>
+              <d:collection/>
+              <cal:schedule-inbox/>
+            </d:resourcetype>
+          </d:prop>
+          <d:status>HTTP/1.1 200 OK</d:status>
+        </d:propstat>
+        <d:propstat>
+          <d:prop>
+            <cal:calendar-description/>
+            <cal:supported-calendar-component-set/>
+            <d:displayname/>
+            <cal:calendar-timezone/>
+          </d:prop>
+          <d:status>HTTP/1.1 404 Not Found</d:status>
+        </d:propstat>
+      </d:response>
+      <d:response>
+        <d:href>/calendars/blublub/outbox/</d:href>
+        <d:propstat>
+          <d:prop>
+            <d:resourcetype>
+              <d:collection/>
+              <cal:schedule-outbox/>
+            </d:resourcetype>
+      </d:prop>
+      <d:status>HTTP/1.1 200 OK</d:status>
+    </d:propstat>
+    <d:propstat>
+      <d:prop>
+        <cal:calendar-description/>
+        <cal:supported-calendar-component-set/>
+        <d:displayname/>
+        <cal:calendar-timezone/>
+      </d:prop>
+      <d:status>HTTP/1.1 404 Not Found</d:status>
+    </d:propstat>
+    </d:response>
+    </d:multistatus>
+    """
+
+    actual = xml |> CalDAVClient.XML.Parser.parse_calendars()
+
+    expected = [
+      %CalDAVClient.Calendar{name: "", timezone: "", type: "", url: "/calendars/blublub/"},
+      %CalDAVClient.Calendar{
+        name: "Journals",
+        timezone: "",
+        type: "VJOURNAL",
+        url: "/calendars/blublub/journals/"
+      },
+      %CalDAVClient.Calendar{
+        name: "Home",
+        timezone:
+          "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Apple Inc.//macOS 12.4//EN\nCALSCALE:GREGORIAN\nBEGIN:VTIMEZONE\nTZID:Europe/Zurich\nBEGIN:DAYLIGHT\nTZOFFSETFROM:+0100\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\nDTSTART:19810329T020000\nTZNAME:CEST\nTZOFFSETTO:+0200\nEND:DAYLIGHT\nBEGIN:STANDARD\nTZOFFSETFROM:+0200\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\nDTSTART:19961027T030000\nTZNAME:CET\nTZOFFSETTO:+0100\nEND:STANDARD\nEND:VTIMEZONE\nEND:VCALENDAR\n",
+        type: "VEVENT",
+        url: "/calendars/blublub/home/"
+      },
+      %CalDAVClient.Calendar{
+        name: "Tasks",
+        timezone: "",
+        type: "VTODO",
+        url: "/calendars/blublub/tasks/"
+      },
+      %CalDAVClient.Calendar{
+        name: "Work",
+        timezone:
+          "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Apple Inc.//macOS 12.4//EN\nCALSCALE:GREGORIAN\nBEGIN:VTIMEZONE\nTZID:Europe/Zurich\nBEGIN:DAYLIGHT\nTZOFFSETFROM:+0100\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\nDTSTART:19810329T020000\nTZNAME:CEST\nTZOFFSETTO:+0200\nEND:DAYLIGHT\nBEGIN:STANDARD\nTZOFFSETFROM:+0200\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\nDTSTART:19961027T030000\nTZNAME:CET\nTZOFFSETTO:+0100\nEND:STANDARD\nEND:VTIMEZONE\nEND:VCALENDAR\n",
+        type: "VEVENT",
+        url: "/calendars/blublub/work/"
+      },
+      %CalDAVClient.Calendar{
+        name: "",
+        timezone: "",
+        type: "",
+        url: "/calendars/blublub/inbox/"
+      },
+      %CalDAVClient.Calendar{
+        name: "",
+        timezone: "",
+        type: "",
+        url: "/calendars/blublub/outbox/"
+      }
+    ]
+
+    assert actual == expected
+  end
 end
