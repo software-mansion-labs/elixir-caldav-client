@@ -24,7 +24,7 @@ defmodule CalDAVClient.Calendar do
   Fetches the list of calendars (see [RFC 4791, section 4.2](https://tools.ietf.org/html/rfc4791#section-4.2)).
   """
   @spec list(CalDAVClient.Client.t()) ::
-          :ok | {:error, any()}
+          {:ok, [t()]} | {:error, any()}
   def list(caldav_client) do
     case caldav_client
          |> make_tesla_client(@xml_middlewares)
