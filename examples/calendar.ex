@@ -16,6 +16,14 @@ try do
       description: "This is an example calendar."
     )
 
+  {:ok, principal} =
+    client
+    |> CalDAVClient.Principal.fetch()
+
+  {:ok, calendars} =
+    client
+    |> CalDAVClient.Calendar.list()
+
   :ok =
     client
     |> CalDAVClient.Calendar.update(calendar_url,

@@ -3,6 +3,26 @@ defmodule CalDAVClient.XML.BuilderTest do
   use ExUnit.Case, async: true
   doctest CalDAVClient.XML.Builder
 
+  test "generates list calendar XML request body" do
+    # https://tools.ietf.org/html/rfc4791#section-4.2
+
+    actual = CalDAVClient.XML.Builder.build_list_calendar_xml()
+
+    expected = """
+    <?xml version="1.0" encoding="utf-8"?>
+    <D:propfind xmlns:D="DAV:" xmlns:CS="http://calendarserver.org/ns/" xmlns:C="urn:ietf:params:xml:ns:caldav">
+      <D:prop>
+        <D:resourcetype/>
+        <D:displayname/>
+        <C:calendar-timezone/>
+        <C:supported-calendar-component-set/>
+      </D:prop>
+    </D:propfind>
+    """
+
+    assert_xml_identical(actual, expected)
+  end
+
   test "generates create calendar XML request body" do
     # https://tools.ietf.org/html/rfc4791#section-5.3.1.2
 
